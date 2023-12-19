@@ -1,0 +1,6 @@
+package id.four.request_api
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
