@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:request_api/models/response/create_user_response.dart';
 import 'package:request_api/models/users.dart';
 
 class Users_Services {
@@ -13,5 +14,14 @@ class Users_Services {
     final list =
         List<Users>.from(bodyJson['data'].map((user) => Users.fromJson(user)));
     return list;
+  }
+
+  static Future<CreateUserResponse> createUser(String name, String job) async {
+    final response = await post(Uri.parse(BASE_URL + 'users'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"name": name, "job": job}));
+    final body = response.body;
+    final bodyJson = jsonDecode(body);
+    return CreateUserResponse.fromJson(bodyJson);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:request_api/models/users.dart';
+import 'package:request_api/pages/create_user.dart';
 import 'package:request_api/services/users_services.dart';
 
 class ListUsers extends StatelessWidget {
@@ -48,6 +49,15 @@ class ListUsers extends StatelessWidget {
               return Text("");
             }
           },
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUser(),));
+          },
+          child: Icon(Icons.add),
         ),
       ),
     );
