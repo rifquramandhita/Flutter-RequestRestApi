@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:request_api/models/users.dart';
 import 'package:request_api/pages/create_user.dart';
 import 'package:request_api/pages/detail_user.dart';
+import 'package:request_api/pages/edit_user.dart';
 import 'package:request_api/services/users_services.dart';
 
 class ListUsers extends StatelessWidget {
@@ -9,6 +11,8 @@ class ListUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _key = GlobalKey<ExpandableFabState>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("List Users"),
@@ -40,7 +44,8 @@ class ListUsers extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailUser(id: user.id.toString()),
+                              builder: (context) =>
+                                  DetailUser(id: user.id.toString()),
                             ));
                       },
                     );
@@ -59,18 +64,37 @@ class ListUsers extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreateUser(),
-                ));
-          },
-          child: Icon(Icons.add),
-        ),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(
+        key: _key,
+        overlayStyle: ExpandableFabOverlayStyle(blur: 5.0),
+        type: ExpandableFabType.up,
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.edit),
+            onPressed: () {
+              _key.currentState?.toggle();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditUser(),
+                  ));
+            },
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.add),
+            onPressed: () {
+              _key.currentState?.toggle();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateUser(),
+                  ));
+            },
+          ),
+        ],
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart';
 import 'package:request_api/models/response/create_user_response.dart';
+import 'package:request_api/models/response/update_user_response.dart';
 import 'package:request_api/models/users.dart';
 
 class Users_Services {
@@ -18,7 +18,7 @@ class Users_Services {
   }
 
   static Future<Users> fetchUserById(String id) async {
-    final response = await get(Uri.parse(BASE_URL+"users/"+id));
+    final response = await get(Uri.parse(BASE_URL + "users/" + id));
     final body = jsonDecode(response.body);
     return Users.fromJson(body['data']);
   }
@@ -30,5 +30,13 @@ class Users_Services {
     final body = response.body;
     final bodyJson = jsonDecode(body);
     return CreateUserResponse.fromJson(bodyJson);
+  }
+
+  static Future<UpdateUserResponse> updateUser(
+      String id, String name, String job) async {
+    final response = await put(Uri.parse(BASE_URL + 'users/' + id),
+        body: jsonEncode({"name": name, "job": job}));
+    final body = jsonDecode(response.body);
+    return UpdateUserResponse.fromJson(body);
   }
 }
