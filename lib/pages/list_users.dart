@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:request_api/models/users.dart';
 import 'package:request_api/pages/create_user.dart';
+import 'package:request_api/pages/detail_user.dart';
 import 'package:request_api/services/users_services.dart';
 
 class ListUsers extends StatelessWidget {
@@ -35,6 +36,13 @@ class ListUsers extends StatelessWidget {
                       subtitle: Text(user.email),
                       leading: CircleAvatar(
                           backgroundImage: NetworkImage(user.avatar)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailUser(id: user.id.toString()),
+                            ));
+                      },
                     );
                   },
                 );
@@ -55,7 +63,11 @@ class ListUsers extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUser(),));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateUser(),
+                ));
           },
           child: Icon(Icons.add),
         ),
